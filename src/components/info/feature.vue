@@ -22,16 +22,6 @@
                         <div class="rv-loading-section rv-left"></div>
                         <div class="rv-loading-section rv-right"></div>
                     </div>
-                    <keep-alive>
-                        <ramp-map
-                            v-if="version === 4 && isVisible"
-                            :config="section.key"
-                            height="h-[600px]"
-                            :id="`ramp-map4-${index}`"
-                            :version="4"
-                            :key="`ramp-map4-${index}`"
-                        />
-                    </keep-alive>
                     <div v-if="isVisible">
                         <keep-alive>
                             <ramp-map
@@ -41,6 +31,14 @@
                                 :id="`ramp-map3-${index}`"
                                 :version="3"
                                 :key="`ramp-map3-${index}`"
+                            />
+                            <ramp-map
+                                v-if="version === 4"
+                                :config="section.key"
+                                height="h-[600px]"
+                                :id="`ramp-map4-${index}`"
+                                :version="4"
+                                :key="`ramp-map4-${index}`"
                             />
                         </keep-alive>
                     </div>
@@ -70,16 +68,6 @@
                         <div class="rv-loading-section rv-left"></div>
                         <div class="rv-loading-section rv-right"></div>
                     </div>
-                    <keep-alive>
-                        <ramp-map
-                            v-if="version === 4 && isVisible"
-                            :config="section.key"
-                            height="h-[600px]"
-                            :id="`ramp-map4-${index}`"
-                            :version="4"
-                            :key="`ramp-map4-${index}`"
-                        />
-                    </keep-alive>
                     <div v-if="isVisible">
                         <keep-alive>
                             <ramp-map
@@ -89,6 +77,14 @@
                                 :id="`ramp-map3-${index}`"
                                 :version="3"
                                 :key="`ramp-map3-${index}`"
+                            />
+                            <ramp-map
+                                v-if="version === 4"
+                                :config="section.key"
+                                height="h-[600px]"
+                                :id="`ramp-map4-${index}`"
+                                :version="4"
+                                :key="`ramp-map4-${index}`"
                             />
                         </keep-alive>
                     </div>
