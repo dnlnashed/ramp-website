@@ -1,0 +1,33 @@
+name: Update RAMP Version
+
+on:
+  workflow_dispatch:
+    inputs:
+      ramp_version:
+        description: "RAMP version to use"
+        required: true
+        default: "latest"
+
+jobs:
+  update-ramp-version:
+    name: Update RAMP Version
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Update RAMP version in package.json
+        run: |
+          npm install
+          jq ".dependencies[\"ramp-pcar\"] = \"${{ github.event.inputs.ramp_version }}\"" package.json > package.tmp.json
+          mv package.tmp.json package.json
+          npm install
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b ramp-script || git checkout ramp-script
+          git add package.json package-lock.json
+          git commit -m "Update RAMP version to ${{ github.event.inputs.ramp_version }}"
+          git push origin ramp-script
