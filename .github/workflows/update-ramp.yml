@@ -19,9 +19,9 @@ jobs:
       - name: Update RAMP version in package.json
         run: |
           echo "Updating RAMP version in package.json..."
-          jq ".dependencies[\"ramp-pcar\"] = \"${{ github.event.inputs.ramp_version }}\"" package.json > package.tmp.json
-          mv package.tmp.json package.json
-          npm install --package-lock-only
+          ramp_version="${{ github.event.inputs.ramp_version }}"
+          sed -i "s/\"ramp-pcar\": *\"[^\"]*\"/\"ramp-pcar\": \"$ramp_version\"/" package.json
+          npm install
 
       - name: Commit changes
         run: |
