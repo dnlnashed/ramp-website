@@ -21,7 +21,7 @@ jobs:
           echo "Updating RAMP version in package.json..."
           jq ".dependencies[\"ramp-pcar\"] = \"${{ github.event.inputs.ramp_version }}\"" package.json > package.tmp.json
           mv package.tmp.json package.json
-          npm install
+          npm install --package-lock-only
 
       - name: Commit changes
         run: |
