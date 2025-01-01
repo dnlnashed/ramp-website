@@ -55,3 +55,4 @@ jobs:
           base: master
           title: "Update RAMP version to ${{ github.event.inputs.ramp_version }}"
           body: "This pull request updates the RAMP version to ${{ github.event.inputs.ramp_version }}."
+          rebase: false
