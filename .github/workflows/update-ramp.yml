@@ -16,20 +16,27 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Create a new branch
+        run: |
+          git checkout -b update-ramp-${{ github.event.inputs.ramp_version }}
+
       - name: Update RAMP version in package.json
         run: |
           echo "Updating RAMP version in package.json..."
-          ramp_version="${{ github.event.inputs.ramp_version }}"
-          sed -i "s/\"ramp-pcar\": *\"[^\"]*\"/\"ramp-pcar\": \"$ramp_version\"/" package.json
-          npm install
+          jq ".dependencies[\"ramp-pcar\"] = \"${{ github.event.inputs.ramp_version }}\"" package.json > package.tmp.json
+          mv package.tmp.json package.json
+          cat package.json
 
-      - name: Commit changes
+      - name: Update package-lock.json by installing dependencies
         run: |
+          npm install
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git checkout -b update-ramp-${{ github.event.inputs.ramp_version }}
           git add package.json package-lock.json
           git commit -m "Update RAMP version to ${{ github.event.inputs.ramp_version }}"
+
+      - name: Push changes
+        run: |
           git push origin update-ramp-${{ github.event.inputs.ramp_version }}
 
       - name: Create Pull Request
@@ -39,4 +46,4 @@ jobs:
           branch: update-ramp-${{ github.event.inputs.ramp_version }}
           base: master
           title: "Update RAMP version to ${{ github.event.inputs.ramp_version }}"
-          body: "This pull request updates the RAMP version to ${{ github.event.inputs.ramp_version }} in package.json."
+          body: "This pull request updates the RAMP version to ${{ github.event.inputs.ramp_version }} in package.json and package-lock.json."
