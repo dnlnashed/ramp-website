@@ -34,10 +34,12 @@ jobs:
           FILE="src/main.ts"
 
           if [ -f "$FILE" ]; then
-            if [ "$(printf '%s\n' "4.8.0" "$VERSION" | sort -V | head -n1)" = "4.8.0" ] && [ "$(printf '%s\n' "4.8.0" "$VERSION" | sort -V | tail -n1)" = "$VERSION" ]; then
+            # Check if the version is <= 4.8.0
+            if [ "$(printf '%s\n' "$VERSION" "4.8.0" | sort -V | head -n1)" = "$VERSION" ]; then
               echo "RAMP version is 4.8.0 or lower. Updating main.ts..."
               sed -i 's|import '\''ramp-pcar/dist/ramp.css'\'';|import '\''ramp-pcar/dist/lib/ramp.css'\'';|g' $FILE
-            elif [ "$(printf '%s\n' "4.9.0" "$VERSION" | sort -V | head -n1)" = "4.9.0" ]; then
+            # Check if the version is >= 4.9.0
+            elif [ "$(printf '%s\n' "$VERSION" "4.9.0" | sort -V | head -n1)" = "4.9.0" ]; then
               echo "RAMP version is 4.9.0 or higher. Updating main.ts..."
               sed -i 's|import '\''ramp-pcar/dist/lib/ramp.css'\'';|import '\''ramp-pcar/dist/ramp.css'\'';|g' $FILE
             else
